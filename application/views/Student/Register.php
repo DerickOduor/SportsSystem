@@ -141,7 +141,7 @@ $(document).ready(function() {
         validation=true;
         $('#regno').css('border','1px solid green');
       }
-      if($('#password').val().length<6 || $('#password').val().length>15){
+      if($('#password').val().length<6 || $('#password').val().length>45){
         validation=false;
         $('#password').focus();
         $('#password').css('border','1px solid red');

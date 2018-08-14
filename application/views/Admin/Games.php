@@ -65,7 +65,7 @@ if(empty($this->session->userdata('admin_logged'))){
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
                   <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  Patrons(Games-in-charge) 
                 </a>
               </li>
               <li class="nav-item">
@@ -125,6 +125,11 @@ if(empty($this->session->userdata('admin_logged'))){
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Games</li>
+              </ol>
+            </nav>
           </div>  
           <div class="w-100">
              <div class="">
@@ -137,7 +142,7 @@ if(empty($this->session->userdata('admin_logged'))){
             <?php 
                 if(count($res)>0){
                     echo '<table class="table table-dark table-bordered">';
-                    echo '<tr><th>Game</th><th>Patron</th><th>Day established</th><th>Action</th></tr>';
+                    echo '<tr><th>Game</th><th>In-charge</th><th>Day established</th><th>Action</th></tr>';
                     foreach ($res as $r) {
                         echo '<tr><td>'.$r->name.'</td><td>'.$r->patron.'</td><td>'.$r->day_established.'</td><td>'.anchor('http://localhost/sportssystem/index.php/Admin/Game/'.$r->id,'View').'</td></tr>';
                     }

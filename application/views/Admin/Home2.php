@@ -75,7 +75,7 @@ if(empty($this->session->userdata('student_logged'))){
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
                   <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  Patrons(Games-in-charge) 
                 </a>
               </li>
               <li class="nav-item">

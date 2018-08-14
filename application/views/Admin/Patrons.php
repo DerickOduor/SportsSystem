@@ -84,7 +84,7 @@ if(empty($this->session->userdata('admin_logged'))){
               <li class="nav-item">
                 <a class="nav-link active" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
                   <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  Patrons(Games-in-charge) 
                 </a>
               </li>
               <li class="nav-item">
@@ -147,18 +147,36 @@ if(empty($this->session->userdata('admin_logged'))){
             <h1>Patrons</h1>
           </div>  
           <div class="w-100">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Patrons(Games-in-charge)</li>
+              </ol>
+            </nav>
              <div class="">
               <div class="container" style="padding: 8px;">
                 <a href="http://localhost/sportssystem/index.php/admin/newpatron" class="btn btn-outline-info">Add patron</a>
               </div>
+              <?php
+                  if(!empty($this->session->flashdata('patron_added'))){
+                    echo '<div class="alert alert-success" role="alert">
+                            '.$this->session->flashdata('patron_added').'
+                          </div>';
+                  } 
+              ?>    
               <div class="row">
                 <div class="col-4 d-flex">
                   <?php 
                 if(count($res)>0){
+                  $game='';
                     echo '<table class="table table-bordered table-dark">';
-                    echo '<tr><th>Name</th><th>Phone</th><th>Email</th><th>Action</th></tr>';
+                    echo '<tr><th>Name</th><th>Phone</th><th>Email</th><th>Game</th><th>Action</th></tr>';
                     foreach ($res as $r) {
-                        echo '<tr><td>'.$r->username.'</td><td>'.$r->phone.'</td><td>'.$r->email.'</td><td>'.anchor('http://localhost/sportssystem/index.php/Admin/Patron/'.$r->id,'View').'</td></tr>';
+                      if(empty($r->game)){
+                        $game='Not assigned';
+                      }else{
+                        $game=$r->game;
+                      }
+                        echo '<tr><td>'.$r->username.'</td><td>'.$r->phone.'</td><td>'.$r->email.'</td><td>'.$game.'</td><td>'.anchor('http://localhost/sportssystem/index.php/Admin/Patron/'.$r->id,'View').'</td></tr>';
                     }
                     echo '</table>';
                 }else{

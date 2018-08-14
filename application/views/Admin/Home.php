@@ -27,6 +27,7 @@ if(empty($this->session->userdata('admin_logged'))){
     <link rel="stylesheet" href="http://localhost/sportssystem/index.php/../assets/css/font-awesome.min.css">
     <script src="http://localhost/sportssystem/index.php/../assets/js/jquery-1.11.1.min.js"></script>
     <script src="http://localhost/sportssystem/index.php/../assets/js/bootstrap_4/bootstrap.min.js"></script>
+    <script src="http://localhost/sportssystem/index.php/../assets/js/feather.min.js"></script>
   </head>
 
   <body>
@@ -46,7 +47,7 @@ if(empty($this->session->userdata('admin_logged'))){
           <div class="sidebar-sticky">
             <li class="nav-item">
                 <a class="nav-link" href="#" id="user">
-                  <span data-feather="home"></span>
+                  <span data-feather="user"></span>
                   <?php echo $this->session->userdata('admin_logged');?><span class="sr-only">(current)</span>
                 </a>
               </li>
@@ -59,19 +60,19 @@ if(empty($this->session->userdata('admin_logged'))){
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Events">
-                  <span data-feather="file"></span>
+                  <span data-feather="trending-up"></span>
                   Events
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
-                  <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  <span data-feather="users"></span>
+                  Patrons(Games-in-charge) 
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Games">
-                  <span data-feather="users"></span>
+                  <span data-feather="activity"></span>
                   Games
                 </a>
               </li>
@@ -85,6 +86,12 @@ if(empty($this->session->userdata('admin_logged'))){
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Budget">
                   <span data-feather="layers"></span>
                   Budget
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/profile">
+                  <span data-feather="edit"></span>
+                  My Profile
                 </a>
               </li>
             </ul>

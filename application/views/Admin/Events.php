@@ -66,7 +66,7 @@ if(empty($this->session->userdata('admin_logged'))){
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
                   <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  Patrons(Games-in-charge)
                 </a>
               </li>
               <li class="nav-item">
@@ -129,12 +129,20 @@ if(empty($this->session->userdata('admin_logged'))){
             <h1 class="h2">Events</h1>
           </div>  
             <div class="w-100">
+              <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item active">Events</li>
+              </ol>
+            </nav>
             <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" href="#" id="upcoming">Upcoming</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" id="past">Past</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="new_event">Register event</a>
             </li>
             <!--<li class="nav-item">
               <a class="nav-link" href="#">Link</a>
@@ -143,6 +151,79 @@ if(empty($this->session->userdata('admin_logged'))){
                 <a class="nav-link disabled" href="#">Disabled</a>
               </li>-->
             </ul>
+            <div class="card" id="reg_new_event">
+              <div class="card-body">
+                <div class="container" id="welcome">
+              <?php 
+              if(empty($this->session->userdata('file_uploaded'))){
+              ?>
+              <form action="http://localhost/sportssystem/index.php/admin/upload_event_pic"method="POST"enctype="multipart/form-data"class="form" id="pic_upload">
+                <div class="form-group">
+                  <input type="file"name="file"class="form-control" required/>
+                </div>
+                <div class="form-group">
+                  <button type="submit"class="btn btn-info"name="upload"><span class="fa fa-cloud-upload"></span>&nbsp;Upload</button>
+                </div>
+              </form>
+              <?php
+              }else{
+              ?>
+              <div class="alert alert-warning"role="alert"><span class="sr-only">Error:</span>Fill in the event details!</div>
+              <div class="row container">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <form action="http://localhost/sportssystem/index.php/admin/add_event_details" method="post" class="form" id="event_details">
+                    <div class="form-group">
+                      <label class="control-label">Event name</label>
+                      <input type="text" name="event_name" placeholder="Event name" id="event_name" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Start date</label>
+                      <input type="text" name="start_date" placeholder="Start date" id="start_date" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">End date</label>
+                      <input type="text" name="end_date" placeholder="End date" id="end_date" class="form-control" required />
+                    </div>
+                    <!--<div class="form-group">
+                      <label class="control-label">Budget</label>
+                      <input type="text" name="budget" placeholder="Budget(Kshs.)" id="budget" class="form-control" required />
+                    </div>-->
+                    <div class="form-group">
+                      <label class="control-label">Event type</label>
+                      <select name="event_type" placeholder="event_type" id="event_type" class="form-control" required>
+                        <option></option>
+                        <option>single sports</option>
+                        <option>double sports</option>
+                        <option>multiple sports</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Location</label>
+                      <input type="text" name="location" placeholder="Location" id="location" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">No. of participating sports</label>
+                      <input type="text" name="n_p_s" placeholder="No. of participating Sports" id="n_p_s" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Participating sports</label>
+                      <input type="text" name="sports" placeholder="Participating sports" id="sports" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-info"><span class="fa fa-check"></span>&nbsp;<span class="b">Submit</span></button>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+              <?php  
+              }
+              ?>
+              
+            </div>
+              </div>
+            </div>
             <div class="card" id="upcomingdiv">
               <div class="card-body">
                 <?php
@@ -150,7 +231,7 @@ if(empty($this->session->userdata('admin_logged'))){
                 ?>
                 <table class="table table-dark table-bordered">
                   <tr><th scope="col">Name</th><th scope="col">Location</th>
-                  <th scope="col">Start date</th><th scope="col">End date</th><th scope="col">Patron</th><th scope="col">Approval status</th><th scope="col">Action</th></tr>
+                  <th scope="col">Start date</th><th scope="col">End date</th><th scope="col">Proposer</th><th scope="col">Approval status</th><th scope="col">Action</th></tr>
                 <?php 
                 foreach($upcomingevents as $u){
                   echo '<tr><td class="mdl-data-table__cell--non-numeric">'.$u->name.'</td><td class="mdl-data-table__cell--non-numeric">'.$u->place.'</td><td class="mdl-data-table__cell--non-numeric">'.$u->start_date.'</td><td class="mdl-data-table__cell--non-numeric">'.$u->end_date.'</td><td class="mdl-data-table__cell--non-numeric">'.$u->proposer.'</td>
@@ -176,11 +257,11 @@ if(empty($this->session->userdata('admin_logged'))){
                 <?php 
                 $paid_amount='';
                 foreach($pastevents as $p){
-                  if($p->paid_amount!=0){
+                  /*if($p->paid_amount!=0){
                     $paid_amount==$p->paid_amount;
                   }else{
                     $paid_amount='-';
-                  }
+                  }*/
                   echo '<tr><td class="mdl-data-table__cell--non-numeric">'.$p->name.'</td><td class="mdl-data-table__cell--non-numeric">'.$p->place.'</td><td class="mdl-data-table__cell--non-numeric">'.$p->start_date.'</td><td class="mdl-data-table__cell--non-numeric">'.$p->end_date.'</td><td class="mdl-data-table__cell--non-numeric">'.$p->proposer.'</td><td class="mdl-data-table__cell--non-numeric"><a href="http://localhost/sportssystem/index.php/admin/pastevent/'.$u->id.'"><span class=""></span>&nbsp;View</a></td></tr>';
                 }
                 ?>
@@ -221,18 +302,81 @@ if(empty($this->session->userdata('admin_logged'))){
     </script>
 <script>
 $(function(){
-  $('#pastdiv').hide();
+  $('#event_details').on('submit',function(e){
+      //e.preventDefault();
+      //alert('s');
+      if ($('#event_name').val().length == 0) {
+        var error = true;
+        $('#event_name').css("border-color", "#D8000C");
+        $('#event_name').css("color", "#D8000C");
+      }else if ($('#start_date').val().length == 0) {
+        var error = true;
+        $('#start_date').css("border-color", "#D8000C");
+        $('#start_date').css("color", "#D8000C");
+      }else if ($('#end_date').val().length == 0) {
+        var error = true;
+        $('#end_date').css("border-color", "#D8000C");
+        $('#end_date').css("color", "#D8000C");
+      }/*else if ($('#budget').val().length == 0) {
+        var error = true;
+        $('#budget').css("border-color", "#D8000C");
+        $('#budget').css("color", "#D8000C");
+      }*/else if ($('#location').val().length == 0) {
+        var error = true;
+        $('#location').css("border-color", "#D8000C");
+        $('#location').css("color", "#D8000C");
+      }else if ($('#n_p_s').val().length == 0) {
+        var error = true;
+        $('#n_p_s').css("border-color", "#D8000C");
+        $('#n_p_s').css("color", "#D8000C");
+      }else if ($('#sports').val().length == 0) {
+        var error = true;
+        $('#sports').css("border-color", "#D8000C");
+        $('#sports').css("color", "#D8000C");
+      }else{
+        $('button').attr({
+          'disabled': 'false'
+        });
+        $('.b').html('Submiting...');
+        var u_=$(this).attr('action');
+      //alert($(this).serialize());
+        $.post(u_, $(this).serialize(), function (result) {
+          if (result =='success') {
+            $('button').removeAttr('disabled');
+            $('.b').html('Submit');
+            window.open('http://localhost/sportssystem/index.php/admin/Events','_self');
+          //alert(result);
+          } else{
+          //alert('Failed');
+            $('button').removeAttr('disabled');
+            $('.b').html('Submit');
+            $('.error').html('Incorrect details! Try again.');
+            $('.error').show('linear',500);
+          }
+        });
+      }
+    });
+  $('#pastdiv,#reg_new_event').hide();
   $('#past').on('click',function(e){
     $('#pastdiv').show();
-    $('#upcomingdiv').hide();
+    $('#upcomingdiv,#reg_new_event').hide();
     $('#past').addClass('active');
     $('#upcoming').removeClass('active');
+    $('#new_event').removeClass('active');
   });
   $('#upcoming').on('click',function(e){
     $('#upcomingdiv').show();
-    $('#pastdiv').hide();
+    $('#pastdiv,#reg_new_event').hide();
     $('#upcoming').addClass('active');
     $('#past').removeClass('active');
+    $('#new_event').removeClass('active');
+  });
+  $('#new_event').on('click',function(e){
+    $('#reg_new_event').show();
+    $('#pastdiv,#upcomingdiv').hide();
+    $('#new_event').addClass('active');
+    $('#past').removeClass('active');
+    $('#upcoming').removeClass('active');
   });
 });     
 </script>
@@ -247,7 +391,7 @@ main{
   font-family: 'PT Sans', sans-serif;
 }
 
-.sidebar-sticky{
+.sidebar-sticky,form{
   font-family: 'PT Sans', sans-serif;
 }
 

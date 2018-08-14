@@ -13,7 +13,7 @@ if(empty($this->session->userdata('admin_logged'))){
             $proposer_id=$u->proposer_id;
             $start_date=$u->start_date;
             $end_date=$u->end_date;
-            $budget=$u->budget;
+            //$budget=$u->budget;
             $location=$u->place;
             $event_poster=$u->event_poster;
             $n_p_s=$u->no_of_participation_sports;
@@ -45,6 +45,8 @@ if(empty($this->session->userdata('admin_logged'))){
     <link rel="stylesheet" href="http://localhost/sportssystem/index.php/../assets/css/font-awesome.min.css">
     <script src="http://localhost/sportssystem/index.php/../assets/js/jquery-1.11.1.min.js"></script>
     <script src="http://localhost/sportssystem/index.php/../assets/js/bootstrap_4/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
   </head>
 
   <body>
@@ -84,7 +86,7 @@ if(empty($this->session->userdata('admin_logged'))){
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
                   <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  Patrons(Games-in-charge) 
                 </a>
               </li>
               <li class="nav-item">
@@ -147,6 +149,12 @@ if(empty($this->session->userdata('admin_logged'))){
             <h1 class="h2">Event:&nbsp;<?php echo $event_name;?></h1>
           </div>  
           <div class="w-100">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="http://localhost/sportssystem/index.php/Admin/Events">Events</a></li>
+                <li class="breadcrumb-item active"><?php echo $event_name;?></li>
+              </ol>
+            </nav>
              <div class="">
               <div class="row">
                 <div class="col-4 d-flex">
@@ -155,7 +163,7 @@ if(empty($this->session->userdata('admin_logged'))){
                     <li class="list-group-item">Start date:&nbsp;<span><?php echo $start_date;?></span></li>
                     <li class="list-group-item">End date:&nbsp;<span><?php echo $end_date;?></span></li>
                     <li class="list-group-item">Location: &nbsp;<span><?php echo $location;?></span></li>
-                    <li class="list-group-item">Budget:&nbsp;Kshs.<span><?php echo $budget;?></span></li>
+                    <!--<li class="list-group-item">Budget:&nbsp;Kshs.<span><?php echo $budget;?></span></li>-->
                     <li class="list-group-item">No. of teams:&nbsp;<span><?php echo $n_p_s;?></span></li>
                     <li class="list-group-item">Teams:&nbsp;<span><?php echo $p_s;?></span></li>
                     <li class="list-group-item">Event type:&nbsp;<span><?php echo $event_type;?></span></li>
@@ -166,7 +174,8 @@ if(empty($this->session->userdata('admin_logged'))){
                     }elseif($approval_status=='rejected'){
                       echo '<li class="list-group-item"><a href="http://localhost/SportsSystem/index.php/Admin/verifyAdmin/'.$event_id.'/accept" class="btn btn-outline-success" data="'.$event_id.'" id="approve_btn" data-toggle="modal" data-target="#LoginApprove">Approve&nbsp;<span class="fa fa-check" style="color:green;"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;</li>';
                     }else{
-                      echo '<li class="list-group-item"><a href="http://localhost/SportsSystem/index.php/Admin/verifyAdmin/'.$event_id.'/reject" class="btn btn-outline-warning" data="'.$event_id.'" id="reject_btn" data-toggle="modal" data-target="#LoginReject">Cancel&nbsp;<span class="fa fa-trash" style="color: yellow;" style="color:green;"></span></a></li>';
+                      echo '<li class="list-group-item"><a href="http://localhost/SportsSystem/index.php/Admin/verifyAdmin/'.$event_id.'/reject" class="btn btn-outline-warning" data="'.$event_id.'" id="reject_btn" data-toggle="modal" data-target="#LoginReject">Cancel&nbsp;<span class="fa fa-trash" style="color: yellow;" style="color:green;"></span></a>&nbsp;&nbsp;&nbsp;<a href="http://localhost/SportsSystem/index.php/Admin/PrepareBudget" id="budget_btn" data-toggle="modal" data-target="#BudgetDiv" class="btn btn-outline-info"><span data-feather="edit-3"></span>&nbsp;Prepare / View Budget</a></li>';
+                      echo '<li class="list-group-item"><a href="http://localhost/SportsSystem/index.php/Admin/conclude_event/'.$event_id.'" class="btn btn-outline-success" data="'.$event_id.'" id="conclude_btn">Conclude Event&nbsp;<span class="fa fa-check" style="color:green;"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;</li>';
                     }
                     ?>
                   </ul>
@@ -256,6 +265,77 @@ if(empty($this->session->userdata('admin_logged'))){
     </div>
   </div>
 </div>
+<div class="modal fade" id="BudgetDiv" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#" id="prepare_budget">Prepare budget</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="show_event_budget">Budget</a>
+            </li>
+          </ul>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <form action="http://localhost/SportsSystem/index.php/Admin/PrepareBudget" method="post" id="budget_form" data="">
+          <div id="budget_error"></div>
+          <input type="hidden" name="event_id" value="<?php echo($event_id);?>"/>
+          <input type="hidden" name="event_name" value="<?php echo($event_name);?>"/>
+          <div class="form-control row">
+            <button class="col-sm-5 col-form-label btn btn-outline-info" id="new_field"><span class="fa fa-plus"></span>&nbsp;Create new field</button>
+          </div>
+          <div id="new_fields" style="padding-top: 10px;"></div>
+          <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-outline-success"><span class="b">Submit</span>&nbsp;<span class="fa fa-send"></span></button>
+            </div>
+          </div>
+        </form>
+        <div id="event_budget">
+          <?php 
+          if(isset($event_budget_desc)){
+            if(count($event_budget_desc)){
+            echo '<ul class="list-group list-group-flush">';
+                    $prepared_by=$date_submitted=$prepared_by_id=$total_budget=$event_id_budget='';
+                    foreach($event_budget_desc as $e){
+                      $prepared_by_id=$e->prepared_by_id;
+                      $prepared_by=$e->prepared_by;
+                      $date_submitted=$e->date_submitted;
+                      $total_budget=$e->total_budget;
+                      $event_id_budget=$e->event_id;
+                    }
+                    echo '<li class="list-group-item">Prepared by:&nbsp;'.$prepared_by.'</li>
+                        <li class="list-group-item">Date submitted:&nbsp;'.$date_submitted.'</li>
+                        <li class="list-group-item">Prepared by:&nbsp;<a href="#">'.$prepared_by.'</a></li>';
+                    foreach($event_budget_desc as $e_b){
+                      echo '<li class="list-group-item">'.$e_b->budget_name.':&nbsp;'.$e_b->budget_value.'</li>';
+                    }    
+            echo '</ul>';
+            echo '<div class="container"><a href="http://localhost/sportssystem/index.php/admin/discard_event_budget/'.$event_id_budget.'" class="btn btn-outline-warning">Discard&nbsp;<span class="fa fa-trash"></span></a></div>';   
+            }else{
+              echo '<div class="alert alert-danger"role="alert"><span class="fa fa-ok-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>Budget is not yet prepared</div>';
+            }   
+          }else{
+              echo '<div class="alert alert-danger"role="alert"><span class="fa fa-ok-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>Budget is not yet prepared</div>';
+          } 
+          ?>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -271,7 +351,19 @@ if(empty($this->session->userdata('admin_logged'))){
     </script>
 <script>
 $(function(){
-  $('#pastdiv').hide();
+  $('#pastdiv,#event_budget').hide();
+  $('#prepare_budget').click(function(){
+    $(this).addClass('active');
+    $('#show_event_budget').removeClass('active');
+    $('#budget_form').show();
+    $('#event_budget').hide();
+  });
+  $('#show_event_budget').click(function(){
+    $(this).addClass('active');
+    $('#prepare_budget').removeClass('active');
+    $('#budget_form').hide();
+    $('#event_budget').show();
+  });
   $('#past').on('click',function(e){
     $('#pastdiv').show();
     $('#upcomingdiv').hide();
@@ -291,6 +383,37 @@ $(function(){
   $('#reject_btn').on('click',function(e){
     e.preventDefault();
     $('#reject_form').attr('action',$(this).attr('href'));
+  });
+  $('#budget_btn').on('click',function(e){
+    e.preventDefault();
+  });
+  var clicks=0;
+  $('#new_field').on('click',function(e){
+    e.preventDefault();
+    clicks++;
+    $('#new_fields').append('<div class="form-group row" id="'+clicks+'"><input type="text" class="col-sm-5 form-control" name="budget_names[]" id="budget_name" placeholder="Budget Name" required /><div class="col-sm-6"><input type="text" name="budget_values[]" class="form-control" id="budget_value" placeholder="Budget Value" required></div><div class="col-sm-1"><a href="#" id="remove_field#"'+clicks+' class="rm_click" data-value="'+clicks+'"><span aria-hidden="true">&times;</span></a></div></div>');
+    $('.rm_click').on('click',function(e){
+      e.preventDefault();
+      var rm_div=$(this).attr('data-value');
+      $('div#'+rm_div).remove();
+      //$('div#'+rm_div).hide();
+    });
+
+  });
+  $('#budget_form').on('submit',function(e){
+    //e.preventDefault();
+    //alert($(this).serialize());
+    $.ajax({
+      url: $(this).attr('action'),
+      method: $(this).attr('method'),
+      data: $(this).serialize(),
+      success: function(result){
+        $('#budget_error').html(result);
+      },
+      error: function(){
+        alert('Something went wrong!');
+      }
+    });
   });
   $('#approval_form').on('submit',function(e){
     

@@ -21,7 +21,7 @@ class Patron extends CI_Controller{
 	}
 
     public function students(){
-        $data['res']=$this->db->get_where('students',array('approved'=>'yes','game'=>$this->session->userdata('game_name'),'game_id'=>$this->session->userdata('game_id')))->result();
+        $data['res']=$this->db->get_where('students',array('approved'=>'yes','game'=>$this->session->userdata('game_name')))->result();
         $this->load->view('Patron/Students',$data);   
     }
 
@@ -41,13 +41,13 @@ class Patron extends CI_Controller{
     }
 
     public function selectstudents(){
-        $data['res']=$this->db->get_where('students',array('game'=>$this->session->userdata('game_name'),'game_id'=>$this->session->userdata('game_id')))->result();
+        $data['res']=$this->db->get_where('students',array('game'=>$this->session->userdata('game_name')))->result();
         $data['upcomingevents']=$this->db->get_where('upcomingevents',array('approval_status'=>'approved'))->result();
         $this->load->view('Patron/selectstudents',$data);   
     }
 
     public function approvestudents(){
-        $data['res']=$this->db->get_where('students',array('game'=>$this->session->userdata('game_name'),'game_id'=>$this->session->userdata('game_id'),'approved'=>'no'))->result();
+        $data['res']=$this->db->get_where('students',array('game'=>$this->session->userdata('game_name'),'approved'=>'no'))->result();
         $this->load->view('Patron/ApproveStudents',$data);   
     }
 
@@ -194,9 +194,9 @@ class Patron extends CI_Controller{
         $sports=$this->input->post('sports');
         $event_type=$this->input->post('event_type');
 
-        $this->db->set(array('name'=>$event_name,'start_date'=>$start_date,'end_date'=>$end_date,'proposer'=>$this->session->userdata('patron_logged'),'proposer_id'=>$this->session->userdata('patron_id'),'budget'=>$budget,'place'=>$location,'no_of_participation_sports'=>$n_p_s,'participating_sports'=>$sports,'event_type'=>$event_type));
+        $this->db->set(array('name'=>$event_name,'start_date'=>$start_date,'end_date'=>$end_date,'proposer'=>$this->session->userdata('patron_logged'),'proposer_id'=>$this->session->userdata('patron_id'),'place'=>$location,'no_of_participation_sports'=>$n_p_s,'participating_sports'=>$sports,'event_type'=>$event_type));
         $this->db->where(array('event_poster'=>$this->session->userdata('file_uploaded')));
-        $save_event_details=$this->db->update('upcomingevents',array('name'=>$event_name,'start_date'=>$start_date,'end_date'=>$end_date,'proposer'=>$this->session->userdata('patron_logged'),'proposer_id'=>$this->session->userdata('patron_id'),'budget'=>$budget,'place'=>$location,'no_of_participation_sports'=>$n_p_s,'participating_sports'=>$sports,'event_type'=>$event_type));
+        $save_event_details=$this->db->update('upcomingevents',array('name'=>$event_name,'start_date'=>$start_date,'end_date'=>$end_date,'proposer'=>$this->session->userdata('patron_logged'),'proposer_id'=>$this->session->userdata('patron_id'),'place'=>$location,'no_of_participation_sports'=>$n_p_s,'participating_sports'=>$sports,'event_type'=>$event_type));
 
         if($save_event_details==TRUE){
             unset($_SESSION['file_uploaded']);

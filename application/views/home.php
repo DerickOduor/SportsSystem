@@ -36,8 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login &nbsp;<span class="caret"></span>
           </a>
           <div class="dropdown-menu"  aria-labelledby="dropdownMenuLink">
-            <a href="http://localhost/sportssystem/index.php/admin" class="dropdown-item">Admin</a>
-            <a href="http://localhost/sportssystem/index.php/patron" class="dropdown-item">Patron</a>
+            <a href="http://localhost/sportssystem/index.php/admin" class="dropdown-item">Co-ordinator</a>
+            <a href="http://localhost/sportssystem/index.php/patron" class="dropdown-item">In-charge</a>
             <a href="http://localhost/sportssystem/index.php/student" class="dropdown-item">Student</a>
           </div>
         </div>

@@ -67,7 +67,7 @@ if(empty($this->session->userdata('patron_logged'))){
             <li><a href="http://localhost/SportsSystem/index.php/Patron/Students">Students</a></li>
             <li><a href="http://localhost/SportsSystem/index.php/Patron/ApproveStudents">Approve Students</a></li>
             <li><a href="http://localhost/SportsSystem/index.php/Patron/Events">Events</a></li>
-            <li><a href="http://localhost/SportsSystem/index.php/Patron/NewEvent">New event</a></li>
+            <!--<li><a href="http://localhost/SportsSystem/index.php/Patron/NewEvent">New event</a></li>-->
             <li><a href="http://localhost/SportsSystem/index.php/Patron/Messages">Messages</a></li>
             <li><a href="http://localhost/SportsSystem/index.php/Patron/SelectStudents">Select students</a></li>
           </div>

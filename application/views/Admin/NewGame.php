@@ -65,7 +65,7 @@ if(empty($this->session->userdata('admin_logged'))){
               <li class="nav-item">
                 <a class="nav-link" href="http://localhost/SportsSystem/index.php/Admin/Patrons">
                   <span data-feather="shopping-cart"></span>
-                  Patrons 
+                  Patrons(Games-in-charge) 
                 </a>
               </li>
               <li class="nav-item">
@@ -125,6 +125,12 @@ if(empty($this->session->userdata('admin_logged'))){
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="http://localhost/sportssystem/index.php/Admin/Games">Games</a></li>
+                <li class="breadcrumb-item active" aria-current="page">New Game</li>
+              </ol>
+            </nav>
           </div>  
           <div class="w-100">
              <div class="">
@@ -144,7 +150,7 @@ if(empty($this->session->userdata('admin_logged'))){
                         <input type="text" class="form-control" name="game" placeholder="Name of game" required />
                     </div>  
                     <div class="form-group">
-                        <label class="control-label">Patron</label>
+                        <label class="control-label">In-charge</label>
                         <select class="form-control" name="patron" required>
                             <option></option>
                             <?php 

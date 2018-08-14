@@ -68,7 +68,7 @@ if(empty($this->session->userdata('patron_logged'))){
             <li><a href="http://localhost/SportsSystem/index.php/Patron/Students">Students</a></li>
             <li><a href="http://localhost/SportsSystem/index.php/Patron/ApproveStudents">Approve Students</a></li>
             <li><a href="http://localhost/SportsSystem/index.php/Patron/Events">Events</a></li>
-            <li class="active"><a href="http://localhost/SportsSystem/index.php/Patron/NewEvent">New event</a></li>
+            <!--<li class="active"><a href="http://localhost/SportsSystem/index.php/Patron/NewEvent">New event</a></li>-->
             <li><a href="http://localhost/SportsSystem/index.php/Patron/Messages">Messages</a></li>
             <li><a href="http://localhost/SportsSystem/index.php/Patron/SelectStudents">Select students</a></li>
           </div>
@@ -107,10 +107,10 @@ if(empty($this->session->userdata('patron_logged'))){
                       <label class="control-label">End date</label>
                       <input type="text" name="end_date" placeholder="End date" id="end_date" class="form-control" required />
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                       <label class="control-label">Budget</label>
                       <input type="text" name="budget" placeholder="Budget(Kshs.)" id="budget" class="form-control" required />
-                    </div>
+                    </div>-->
                     <div class="form-group">
                       <label class="control-label">Event type</label>
                       <select name="event_type" placeholder="event_type" id="event_type" class="form-control" required>
@@ -201,11 +201,11 @@ $(document).ready(function() {
         var error = true;
         $('#end_date').css("border-color", "#D8000C");
         $('#end_date').css("color", "#D8000C");
-      }else if ($('#budget').val().length == 0) {
+      }/*else if ($('#budget').val().length == 0) {
         var error = true;
         $('#budget').css("border-color", "#D8000C");
         $('#budget').css("color", "#D8000C");
-      }else if ($('#location').val().length == 0) {
+      }*/else if ($('#location').val().length == 0) {
         var error = true;
         $('#location').css("border-color", "#D8000C");
         $('#location').css("color", "#D8000C");
